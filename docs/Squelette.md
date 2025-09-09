@@ -1,15 +1,15 @@
 # Identification de l'étudiant
 
-- <nomComplet1>Entrer votre nom</nomComplet1>
-- <courriel1>Entrer votre courriel</courriel1>
-- <codeMoodle1>Entrer votre code moodle obtenu à partir de Signets, 2 lettres majuscule avec 5 chiffres</codeMoodle1>
-- <githubAccount1>Entrer l'identifiant de votre compte github</githubAccount1>
+- <nomComplet1>Anthony Bassil</nomComplet1>
+- <courriel1>anthony.bassil.1@ens.etsmtl.ca</courriel1>
+- <codeMoodle1>AT29770</codeMoodle1>
+- <githubAccount1>Bxssil</githubAccount1>
 
 # Squelette pour un API simple dans Node, Express et TypeScript
 
 ## Introduction
 
-Ce squelette est proposé pour commencer les projets en LOG210. Il possède les qualités suivantes:
+Ce squelette est proposé pour commencer les projets en LOG210. Il possède les qualités suivantes:ß
 
 - il est simple pour les débutants en LOG210
   - il n'y a pas de framework pour le front-end ni pour la persistance, mais ça n'empêche pas d'ajouter ces dimensions.
@@ -162,6 +162,11 @@ Voici la même figure, mais sous forme de diagramme de séquence avec l'acteur. 
 
 4. Le Joueur demande à terminer le jeu.
 1. ~~Le Système affiche un tableau de bord avec les noms des joueurs et le ratio des parties gagnées (nombre de fois gagné / nombre de lancers).~~
+
+#### Redémarrer
+
+1. Le Joueur demande à redémarrer l'application.
+2. Le Système termine tous les jeux en cours et redémarre l'application.
 
 ### Diagramme de cas d'utilisation
 
