@@ -129,6 +129,20 @@ export class JeuRouter {
     }
   }
 
+  /**
+   * Retourner la liste des joueurs
+   */
+  public getJoueurs(req: Request, res: Response, next: NextFunction) {
+    try {
+      // Ton getter retourne déjà une string JSON,
+      // mais Express préfère recevoir un objet/array directement
+      const joueurs = JSON.parse(this._controleurJeu.joueurs);
+      res.status(200).send(joueurs);
+    } catch (error) {
+      this._errorCode500(error, req, res);
+    }
+  }
+
 
 
   /**
@@ -140,6 +154,7 @@ export class JeuRouter {
     this._router.get('/jouer/:nom', this.jouer.bind(this)); // pour .bind voir https://stackoverflow.com/a/15605064/1168342
     this._router.get('/terminerJeu/:nom', this.terminerJeu.bind(this)); // pour .bind voir https://stackoverflow.com/a/15605064/1168342
     this._router.get('/redemarrerJeu', this.redemarrerJeu.bind(this)); // pour .bind voir https://stackoverflow.com/a/15605064/1168342
+    this._router.get('/joueurs', this.getJoueurs.bind(this));
   }
 
 }
