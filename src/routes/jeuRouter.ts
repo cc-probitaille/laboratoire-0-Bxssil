@@ -139,13 +139,11 @@ export class JeuRouter {
    */
   init() {
     this._router.post('/demarrerJeu', this.demarrerJeu.bind(this));
-    this._router.post('/ajouterJoueur', this.demarrerJeu.bind(this));
     this._router.get('/jouer/:nom', this.jouer.bind(this));
     this._router.get('/terminerJeu/:nom', this.terminerJeu.bind(this));
     this._router.get('/redemarrerJeu', this.redemarrerJeu.bind(this));
-    this._router.get('/joueurs', this.getJoueurs.bind(this));
+    this._router.get('/joueurs', this.getJoueurs.bind(this)); // <-- nouvelle route
   }
-
 }
 
 // exporter le routeur configuré
