@@ -4,7 +4,7 @@ import { InvalidParameterError } from '../core/errors/invalidParameterError';
 
 export class JeuRouter {
   private _router: Router;
-  private _controleurJeu: JeuDeDes;  // contrôleur GRASP
+  private _controleurJeu: JeuDeDes;
 
   get controleurJeu() {
     return this._controleurJeu;
@@ -51,23 +51,20 @@ export class JeuRouter {
   public jouer(req: Request, res: Response, next: NextFunction) {
     const nom = req.params.nom;
     try {
-      // Appel du contrôleur GRASP
       const resultatStr = this._controleurJeu.jouer(nom);
       const resultatObj = JSON.parse(resultatStr);
 
-      // flash un message selon le résultat
       const key = resultatObj.somme <= 10 ? 'win' : 'info';
       req.flash(key,
         `Résultat pour ${nom}: ${resultatObj.v1} + ${resultatObj.v2} + ${resultatObj.v3} = ${resultatObj.somme}`);
 
-      // renvoyer un objet avec toutes les propriétés séparées (pas une chaîne JSON)
       res.status(200).send({
         message: 'Success',
         status: res.status,
         resultat: {
           v1: resultatObj.v1,
           v2: resultatObj.v2,
-          v3: resultatObj.v3,       // <-- corrigé
+          v3: resultatObj.v3,
           somme: resultatObj.somme,
           nom: resultatObj.nom,
           lancers: resultatObj.lancers,
@@ -107,13 +104,23 @@ export class JeuRouter {
   public redemarrerJeu(req: Request, res: Response, next: NextFunction) {
     try {
       this._controleurJeu.redemarrerJeu();
-
       req.flash('info', 'Le jeu a été redémarré.');
-
       res.status(200).send({
         message: 'Le jeu a été redémarré avec succès.',
         status: res.status
       });
+    } catch (error) {
+      this._errorCode500(error, req, res);
+    }
+  }
+
+  /**
+   * retourner la liste des joueurs
+   */
+  public getJoueurs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const joueurs = this._controleurJeu.joueurs;
+      res.status(200).send(JSON.parse(joueurs));
     } catch (error) {
       this._errorCode500(error, req, res);
     }
@@ -132,10 +139,13 @@ export class JeuRouter {
    */
   init() {
     this._router.post('/demarrerJeu', this.demarrerJeu.bind(this));
+    this._router.post('/ajouterJoueur', this.demarrerJeu.bind(this));
     this._router.get('/jouer/:nom', this.jouer.bind(this));
     this._router.get('/terminerJeu/:nom', this.terminerJeu.bind(this));
     this._router.get('/redemarrerJeu', this.redemarrerJeu.bind(this));
+    this._router.get('/joueurs', this.getJoueurs.bind(this));
   }
+
 }
 
 // exporter le routeur configuré

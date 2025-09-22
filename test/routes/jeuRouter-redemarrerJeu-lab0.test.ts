@@ -23,5 +23,13 @@ describe('GET /api/v1/jeu/redemarrerJeu', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual([]);
   });
+
+  it('devrait renvoyer 404 si on joue après avoir redémarré le jeu', async () => {
+    const response = await request(app).get('/api/v1/jeu/jouer/Joueur1');
+    expect(response.status).toBe(404);
+    expect(response.body.error).toContain("n'existe pas");
+    expect(response.body.error).toContain("Joueur1");
+  });
+
 });
 
