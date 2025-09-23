@@ -82,7 +82,6 @@ export class JeuRouter {
     }
   }
 
-  // 🔽 nouveau: lister les joueurs (utilisé par les tests après redémarrage)
   public getJoueurs(req: Request, res: Response, next: NextFunction) {
     try {
       const joueurs = JSON.parse(this._controleurJeu.joueurs);
@@ -113,7 +112,6 @@ export class JeuRouter {
     this._router.get('/jouer/:nom', this.jouer.bind(this));
     this._router.get('/terminerJeu/:nom', this.terminerJeu.bind(this));
     this._router.get('/redemarrerJeu', this.redemarrerJeu.bind(this));
-    // 🔽 nouvelle route pour les tests
     this._router.get('/joueurs', this.getJoueurs.bind(this));
   }
 }
