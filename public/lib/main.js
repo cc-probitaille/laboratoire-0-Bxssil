@@ -38,6 +38,7 @@ window.addEventListener("load", function () {
         }
     });
 
+    // 🔽 EXACTEMENT ce que le test cherche:
     document.getElementById("redemarrer").addEventListener("click", function () {
         fetch("/api/v1/jeu/redemarrerJeu")
             .then(function () {

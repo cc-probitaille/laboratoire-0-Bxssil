@@ -17,7 +17,7 @@ class App {
     this.middleware();
     this.routes();
     this.expressApp.set('view engine', 'pug');
-    this.expressApp.use(express.static(__dirname + '/public') as express.RequestHandler); // https://expressjs.com/en/starter/static-files.html
+    this.expressApp.use(express.static(__dirname + '/public') as express.RequestHandler);
   }
 
   // Configure Express middleware.
@@ -38,52 +38,48 @@ class App {
   private routes(): void {
     const titreBase = 'Jeu de dés';
     let router = express.Router();
-    // Le squelette ne traite pas la gestion des connexions d'utilisateur, mais
-    // les gabarits Pug (navbar) supportent l'affichage selon l'état de connexion 
-    // dans l'objet user, qui peut avoir deux valeurs (p.ex. admin ou normal)
+
+    // utilisateur simulé
     let user;
-    // Si l'utilisateur est connecté, le gabarit Pug peut afficher des options, 
-    // le nom de l'utilisateur et une option pour se déconnecter.
     user = { nom: 'Pierre Trudeau', hasPrivileges: true, isAnonymous: false };
-    // Si user.isAnonymous est vrai, le gabarit Pug affiche une option pour se connecter.
-    // user = { isAnonymous: true }; // utilisateur quand personne n'est connecté
+    // user = { isAnonymous: true }; // si personne n'est connecté
 
     // Route pour jouer (index)
     router.get('/', (req, res, next) => {
-      res.render('index',
-        // passer objet au gabarit (template) Pug
-        {
-          title: `${titreBase}`,
-          user: user,
-          joueurs: JSON.parse(jeuRoutes.controleurJeu.joueurs)
-        });
+      res.render('index', {
+        title: `${titreBase}`,
+        user: user,
+        joueurs: JSON.parse(jeuRoutes.controleurJeu.joueurs)
+      });
     });
 
     // Route pour classement (stats)
     router.get('/stats', (req, res, next) => {
-      const joueurs: Array<any> = JSON.parse(jeuRoutes.controleurJeu.joueurs);
+      const joueurs: Array<{ nom: string; lancers: number; lancersGagnes: number }> =
+        JSON.parse(jeuRoutes.controleurJeu.joueurs);
 
-      const joueursAvecRatio = joueurs.map(j => {
-        const ratio = j.lancers > 0 ? j.lancersGagnes / j.lancers : 0;
-        return { ...j, ratio };
+      // ajouter propriété ratio
+      const joueursAvecRatio = joueurs.map(j => ({
+        ...j,
+        ratio: j.lancers > 0 ? j.lancersGagnes / j.lancers : 0
+      }));
+
+      // trier par ratio décroissant, puis par succès décroissant
+      joueursAvecRatio.sort((a, b) => {
+        if (b.ratio !== a.ratio) return b.ratio - a.ratio;
+        return (b.lancersGagnes ?? 0) - (a.lancersGagnes ?? 0);
       });
 
-
-      joueursAvecRatio.sort((a, b) => b.ratio - a.ratio);
-
-      return res.render('stats',
-        {
-          title: `${titreBase}`,
-          user: user,
-          joueurs: joueursAvecRatio
-        });
+      res.render('stats', {
+        title: `${titreBase}`,
+        user: user,
+        joueurs: joueursAvecRatio
+      });
     });
-
 
     // Route to login
     router.get('/signin', async function (req, res) {
       if (user.isAnonymous) {
-        // simuler un login
         res.render('signin', {
           title: `${titreBase}`
         })
@@ -92,19 +88,15 @@ class App {
       }
     });
 
-    // Route to login
+    // Route to logout
     router.get('/signout', async function (req, res) {
-      // simuler une déconnexion
       user = { isAnonymous: true };
       return res.redirect('/');
     });
 
-
-    this.expressApp.use('/', router);  // routage de base
-
-    this.expressApp.use('/api/v1/jeu', jeuRoutes.router);  // tous les URI pour le scénario jeu (DSS) commencent ainsi
+    this.expressApp.use('/', router);
+    this.expressApp.use('/api/v1/jeu', jeuRoutes.router);
   }
-
 }
 
 export default new App().expressApp;

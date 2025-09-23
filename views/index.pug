@@ -2,7 +2,6 @@ html
   include includes/head.pug
   body
     +navbar("Jeu de dés", user)
-    //- les .container, .alert, .col-sm-4, etc. sont des directives de Bootstrap
     if !user.isAnonymous
       div.container
         h1 Jouer
@@ -24,10 +23,8 @@ html
             dd
               input.form-control.col-sm-6(name='nom' type='text')
           button#demarrer Démarrer
-          button#redemarrer Redémarrer
 
         h3 Joueurs
-        //- .entries est défini dans /css/style.css
         ul.entries
           each joueur in joueurs
             li.joueur
@@ -43,3 +40,5 @@ html
             li
               em Pas de joueurs encore.
 
+        // 🔽 nouveau bouton
+        button#redemarrer Redémarrer
