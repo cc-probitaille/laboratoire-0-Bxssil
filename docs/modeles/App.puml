@@ -34,9 +34,9 @@ class JeuDeDes {
     -_d2: De
     -_d3: De
     +demarrerJeu(nom: string): string
-    +redemarrerJeu(): void
     +jouer(nom: string): string
     +terminerJeu(nom: string): string
+    +redemarrerJeu(): string
     +brasser(): number
     +joueurs: string
 }
@@ -47,10 +47,10 @@ class JeuRouter {
     +router: Router
     +demarrerJeu(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
     +jouer(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
-    +terminerJeu(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
-    +redemarrerJeu(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
-    +getJoueurs(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
     -_errorCode500(error: any, req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>): void
+    +terminerJeu(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
+    +getJoueurs(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
+    +redemarrerJeu(req: Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>, next: NextFunction): void
     +init(): void
 }
 class App {
