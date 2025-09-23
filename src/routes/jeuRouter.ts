@@ -106,8 +106,8 @@ export class JeuRouter {
       this._controleurJeu.redemarrerJeu();
       req.flash('info', 'Le jeu a été redémarré.');
       res.status(200).send({
-        message: 'Le jeu a été redémarré avec succès.',
-        status: res.status
+        message: 'Success',
+        status: 'Success'
       });
     } catch (error) {
       this._errorCode500(error, req, res);

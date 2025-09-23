@@ -38,7 +38,6 @@ window.addEventListener("load", function () {
         }
     });
 
-    // Ajout du listener pour le bouton Redémarrer
     document.getElementById("redemarrer").addEventListener("click", function () {
         fetch("/api/v1/jeu/redemarrerJeu")
             .then(function () {

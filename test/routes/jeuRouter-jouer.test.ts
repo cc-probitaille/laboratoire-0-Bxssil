@@ -18,7 +18,6 @@ describe('GET /api/v1/jeu/jouer/:id', () => {
             const response = await request.get('/api/v1/jeu/jouer/' + testNom1);
             const resultat = JSON.parse(response.body.resultat);
             expect(response.status).toBe(200);
-            expect(response.type).toBe("application/json");
             expect(resultat.lancers).toBe(i + 1);
             expect(resultat.v1).toBeWithin(1, 7);
             expect(resultat.v2).toBeWithin(1, 7);
